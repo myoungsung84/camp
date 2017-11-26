@@ -74,7 +74,6 @@ process.on('uncaughtException', function (err) {
 });
 
 process.on('SIGTERM', function () {
-    console.log("프로세스가 종료됩니다.");
     app.close();
 });
 

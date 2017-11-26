@@ -13,7 +13,8 @@ module.exports = {
 	db_url: 'mongodb://localhost:27017/local',
 	db_schemas: [
         {file:'./subject_schema', collection:'subject', schemaName:'SubjectSchema', modelName:'SubjectModel'},
-        {file:'./member_schema', collection:'member', schemaName:'MemberSchema', modelName:'MemberModel'}
+        {file:'./member_schema', collection:'member', schemaName:'MemberSchema', modelName:'MemberModel'},
+        {file:'./package_schema', collection:'package', schemaName:'packageSchema', modelName:'packageModel'},        
 	],
 	route_info: [
         {file:'./subject', path:'/subject/', method:'listsubject', type:'get'},
@@ -26,6 +27,12 @@ module.exports = {
         {file:'./member', path:'/member/:id', method:'showmember', type:'get'},
         {file:'./member', path:'/member/', method:'addmember', type:'post'},
         {file:'./member', path:'/member/:id', method:'updatemember', type:'put'},
-        {file:'./member', path:'/member/:id', method:'deletemember', type:'delete'}        
+        {file:'./member', path:'/member/:id', method:'deletemember', type:'delete'},
+        
+        {file:'./package', path:'/package/', method:'listpackage', type:'get'},
+        {file:'./package', path:'/package/:id', method:'showpackage', type:'get'},
+        {file:'./package', path:'/package/', method:'addpackage', type:'post'},
+        {file:'./package', path:'/package/:id', method:'updatepackage', type:'put'},
+        {file:'./package', path:'/package/:id', method:'deletepackage', type:'delete'}
 	],
 }
