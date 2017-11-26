@@ -54,9 +54,31 @@ path     : /subject/
 param    : {object_id}
 desc     : get subject
 */
-var showsubject = function(req, res) {
+var showsubject = function(req, res) {    
+    var mongo = req.app.get('mongo');
     
-	
+    var paramID = req.params.id;
+    
+	if (mongo.db) {
+        mongo.SubjectModel.load(paramID, function(err, results) {
+			if (err) {
+                var content = {
+                    title:'list error',
+                    stack:err.stack
+                };                
+                return res.status(404).json(content);                
+            }
+			
+			if (results) {
+                res.json(JSON.stringify(results));
+			} else {
+                return res.status(404).json({ error: 'item not found' });
+			}
+		});
+		
+	} else {
+        return res.status(404).json({ error: 'data base not connect' });
+	}
 };
 
 /*
@@ -132,7 +154,7 @@ var deletesubject = function(req, res) {
         if(err) return res.status(500).json({ error: "database failure" });
 
         res.status(204).end();
-    })
+    });
 };
 
 module.exports.listsubject = listsubject;
