@@ -14,7 +14,7 @@ module.exports = {
 	db_schemas: [
         {file:'./subject_schema', collection:'subject', schemaName:'SubjectSchema', modelName:'SubjectModel'},
         {file:'./member_schema', collection:'member', schemaName:'MemberSchema', modelName:'MemberModel'},
-        {file:'./package_schema', collection:'package', schemaName:'packageSchema', modelName:'packageModel'},        
+        {file:'./package_schema', collection:'package', schemaName:'PackageSchema', modelName:'PackageModel'},        
 	],
 	route_info: [
         {file:'./subject', path:'/subject/', method:'listsubject', type:'get'},

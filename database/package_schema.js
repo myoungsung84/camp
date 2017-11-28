@@ -29,9 +29,23 @@ SchemaObj.createSchema = function(mongoose) {
         }]
 	});
 
-//	packageSchema.statics = {
-//
-//	};
+	packageSchema.statics = {
+		load: function(id, callback) {
+			this.findOne({_id: id})
+				//.populate('writer', 'name provider email')
+				//.populate('comments.writer')
+				.exec(callback);
+		},
+		list: function(options, callback) {
+			var criteria = options.criteria || {};			
+			this.find(criteria)
+				.populate('writer', 'name provider email')
+				.sort({'created_at': -1})
+				.limit(Number(options.perPage))
+				.skip(options.perPage * options.page)
+				.exec(callback);
+		}
+	}
     
 	return packageSchema;
 };

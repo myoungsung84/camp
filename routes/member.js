@@ -60,7 +60,6 @@ var showmember = function(req, res) {
     var paramID = req.params.id;
     
     if (mongo.db) {
-
         mongo.MemberModel.load(paramID, function(err, results) {
 			if (err) {
                 var content = {
@@ -136,15 +135,18 @@ var updatemember = function(req, res) {
         phone:req.body.phone,
         updated_at:Date.now()
     }
-    
-    mongo.MemberModel.update({ _id: req.params.id }, { $set: member }, function(err, output){
-        if(err) 
-            res.status(500).json({ error: 'database failure' });
-        console.log(output.n);
-        if(!output.n) 
-            return res.status(404).json({ error: 'item not found' });
-        res.json( { message: 'item updated' } );
-    });
+    if (mongo.db) {
+        mongo.MemberModel.update({ _id: req.params.id }, { $set: member }, function(err, output){
+            if(err) 
+                res.status(500).json({ error: 'database failure' });
+
+            if(!output.n) 
+                return res.status(404).json({ error: 'item not found' });
+            res.json( { message: 'item updated' } );
+        });
+    } else {
+        return res.status(404).json({ error: 'data base not connect' });
+    }
 };
 
 /*
@@ -157,11 +159,15 @@ desc     : delete to member
 var deletemember = function(req, res) {
 	var mongo = req.app.get('mongo');
 
-    mongo.MemberModel.remove({ _id: req.params.id }, function(err, output){
-        if(err) return res.status(500).json({ error: "database failure" });
+    if (mongo.db) {
+        mongo.MemberModel.remove({ _id: req.params.id }, function(err, output){
+            if(err) return res.status(500).json({ error: "database failure" });
 
-        res.status(204).end();
-    });
+            res.status(204).end();
+        });
+    } else {
+        return res.status(404).json({ error: 'data base not connect' });
+    }
 };
 
 module.exports.listmember = listmember;
